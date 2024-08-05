@@ -1,4 +1,5 @@
 export const clientRoutes = {
   generation: "/generation",
-  tests: "/tests"
+  tests: "/tests",
+  testEdit: "/tests/:id"
 };

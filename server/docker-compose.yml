@@ -1,9 +1,0 @@
-version: "3.3"
-
-services:
-  frontend:
-    container_name: mephi-league
-    image: mephi-league
-    restart: always
-    ports:
-      - 8000:80
