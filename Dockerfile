@@ -1,3 +1,3 @@
-FROM nginx:alpine
-COPY build /usr/share/nginx/html
-COPY configs/nginx /etc/nginx
+FROM nginx:alpine3.18
+COPY nginx /etc/nginx
+COPY dist /usr/share/nginx/html

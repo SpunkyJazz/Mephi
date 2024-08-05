@@ -1,10 +1,10 @@
-# Frontend. Mephi-league.
+# Frontend. Mephi.
 
 # Запуск приложения в докер контейнере из готового образа
 
 ##### Загрузите файлы из директории [server](./server) на сервер, в любую удобную вам папку (к примеру home директорию пользователя). Последующие команды выполняйте находясь в этой же папке. Выполните команду
 
-`docker load -i ./mephi-league.tar.gz`
+`docker load -i ./mephi.tar.gz`
 
 ##### Для запуска приложения в докер контейнере выполните
 
@@ -58,8 +58,8 @@
 
 ##### Для сборки образа выполните
 
-`docker build -t mephi-league:latest --platform linux/amd64 .`
+`docker build -t mephi:latest --platform linux/amd64 .`
 
 ##### Для сохранения сжатого образа выполните
 
-`docker save mephi-league | gzip > ./server/mephi-league.tar.gz`
+`docker save mephi | gzip > ./server/mephi.tar.gz`

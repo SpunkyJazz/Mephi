@@ -1,11 +1,11 @@
 import { createContext, useContext } from "react";
-import { LeagueStore } from "./league";
+import { MephiStore } from "./mephi";
 
-export const createStore = (): LeagueStore => new LeagueStore();
+export const createStore = (): MephiStore => new MephiStore();
 
-export const StoreContext = createContext<LeagueStore | null>(null);
+export const StoreContext = createContext<MephiStore | null>(null);
 
-export const useStore = (): LeagueStore => {
+export const useStore = (): MephiStore => {
   const stores = useContext(StoreContext);
 
   if (!stores) {
