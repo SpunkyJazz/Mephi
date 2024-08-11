@@ -7,10 +7,12 @@ import {
   Col,
   InputNumber,
   TreeSelect
+  // Tree,
+  // TreeProps
 } from "antd";
 
 export const GenerationPage = (): JSX.Element => {
-  const onChange = (value: any) => {
+  const onChange = (value: any): void => {
     console.log("changed", value);
   };
 
@@ -96,65 +98,78 @@ export const GenerationPage = (): JSX.Element => {
 
   const [value, setValue] = useState(["0-0-0"]);
 
-  const OnChange = (newValue: string[]) => {
+  const OnChange = (newValue: string[]): void => {
     console.log("onChange ", newValue);
     setValue(newValue);
   };
 
+  // const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
+  //   console.log('selected', selectedKeys, info);
+  // };
+
+  // const onCheck: TreeProps['onCheck'] = (checkedKeys, info) => {
+  //   console.log('onCheck', checkedKeys, info);
+  // };
+
   return (
-    <>
-      <Col>
-        <Card
-          style={{
-            marginBottom: 10,
-            fontSize: 35,
-            display: "flex",
-            justifyContent: "center"
-          }}>
-          Генерация тестов
-        </Card>
-        <Input
-          placeholder="Имя теста"
-          style={{ height: 50, fontSize: 25, marginBottom: 10 }}
+    <Col>
+      <Card
+        style={{
+          marginBottom: 10,
+          fontSize: 30,
+          display: "flex",
+          justifyContent: "center"
+        }}>
+        Создание теста
+      </Card>
+      <Input
+        placeholder="Имя теста"
+        style={{ height: 50, fontSize: 25, marginBottom: 10 }}
+      />
+      <Row style={{ display: "flex", justifyContent: "space-between" }}>
+        <InputNumber
+          min={0}
+          max={50}
+          style={{ width: "20vw", height: 50, fontSize: 25 }}
+          placeholder="Количество вариантов"
+          onChange={onChange}
         />
-        <Row style={{ display: "flex", justifyContent: "space-between" }}>
-          <InputNumber
-            min={0}
-            max={50}
-            style={{ width: "20vw", height: 50, fontSize: 25 }}
-            placeholder="Количество вариантов"
-            onChange={onChange}
-          />
-          <InputNumber
-            min={0}
-            max={50}
-            style={{ width: "20vw", height: 50, fontSize: 25 }}
-            placeholder="Количество вопросов"
-            onChange={onChange}
-          />
-          <InputNumber
-            min={0}
-            max={120}
-            style={{ width: "20vw", height: 50, fontSize: 25 }}
-            placeholder="Минут на тест"
-            onChange={onChange}
-          />
-          <Button
-            type="primary"
-            style={{ width: "20vw", height: 50, fontSize: 25 }}>
-            {" "}
-            Отправить{" "}
-          </Button>
-        </Row>
-        <TreeSelect
-          size="large"
-          treeData = {treeData}
-          onChange = {OnChange}
-          treeCheckable="true"
-          placeholder="Выберите темы"
-          style={{ marginTop: 10, width: "100%", fontSize: 25 }}
+        <InputNumber
+          min={0}
+          max={50}
+          style={{ width: "20vw", height: 50, fontSize: 25 }}
+          placeholder="Количество вопросов"
+          onChange={onChange}
         />
-      </Col>
-    </>
+        <InputNumber
+          min={0}
+          max={120}
+          style={{ width: "20vw", height: 50, fontSize: 25 }}
+          placeholder="Минут на тест"
+          onChange={onChange}
+        />
+        <Button
+          type="primary"
+          style={{ width: "20vw", height: 50, fontSize: 25 }}>
+          Отправить
+        </Button>
+      </Row>
+      <TreeSelect
+        size="large"
+        treeData={treeData}
+        onChange={OnChange}
+        treeCheckable="true"
+        placeholder="Выберите темы"
+        style={{ marginTop: 10, width: "100%", fontSize: 25 }}
+      />
+      {/* <div style={{fontSize: 25, marginTop: 10, backgroundColor: "white"}}>Выберите темы:</div>
+        <Tree
+          checkable
+          style={{marginTop: 15}}
+          onSelect={onSelect}
+          onCheck={onCheck}
+          treeData={treeData}
+        /> */}
+    </Col>
   );
 };

@@ -1,109 +1,137 @@
-import { Popconfirm, Table } from "antd";
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Popconfirm,
+  Result,
+  Row,
+  Skeleton,
+  Table,
+  message
+} from "antd";
+import { ColumnsType } from "antd/lib/table";
+import { useEffect, useState } from "react";
+import { generatePath, useNavigate } from "react-router";
+import { MephiApi } from "src/api/mephi";
+import { TTest } from "src/api/mephi/types";
 import { clientRoutes } from "src/routes/client";
-
-interface DataType {
-  key: number;
-  name: string;
-  variants: string;
-  questions: string;
-}
 
 export const TestsPage = (): JSX.Element => {
   const navigate = useNavigate();
 
-  const handleDelete = (key: number) => {
-    const newData = dataSource.filter((item) => item.key !== key);
-    setDataSource(newData);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [tests, setTests] = useState<TTest[]>([]);
+  useEffect(() => {
+    MephiApi.getTests()
+      .then((res) => setTests(res.data))
+      .catch(() => {
+        setTests([]);
+        message.error("Ошибка при загрузке");
+      })
+      .finally(() => setIsLoading(false))
+      .catch(() => null);
+  }, []);
+
+  const handleDeleteTest = (value: number): void => {
+    const _tests = tests;
+    _tests.splice(value, 1);
+    setTests(_tests);
   };
 
-  const [dataSource, setDataSource] = useState<DataType[]>([
-    {
-      key: 0,
-      name: "Test 1",
-      variants: "20",
-      questions: "20"
-    },
-    {
-      key: 1,
-      name: "Test 2",
-      variants: "10",
-      questions: "15"
-    },
-    {
-      key: 2,
-      name: "Test 3",
-      variants: "10",
-      questions: "20"
-    },
-    {
-      key: 3,
-      name: "Test 4",
-      variants: "15",
-      questions: "20"
-    },
-    {
-      key: 4,
-      name: "Test 5",
-      variants: "20",
-      questions: "10"
-    },
-    {
-      key: 5,
-      name: "Test 6",
-      variants: "15",
-      questions: "10"
-    },
-    {
-      key: 6,
-      name: "Test 7",
-      variants: "10",
-      questions: "10"
-    }
-  ]);
-
-  const columns: any = [
+  const columns: ColumnsType<TTest> = [
     {
       title: "Название теста",
       dataIndex: "name",
-      width: "30%",
-      editable: true
+      width: "40%"
     },
     {
       title: "Вариантов",
-      dataIndex: "variants"
+      dataIndex: "variants",
+      width: "10%"
     },
     {
       title: "Вопросов",
-      dataIndex: "questions"
+      dataIndex: "questions",
+      width: "10%"
     },
     {
-      dataIndex: "edit",
-      render: (_: any, record: any) => (
-        <Popconfirm
-          title="Перейти к редактированию?"
-          onConfirm={() => navigate(`${clientRoutes.tests}/${record.key}`)}>
-          <a>Редактировать</a>
-        </Popconfirm>
+      title: "Минут",
+      dataIndex: "minutes",
+      width: "10%"
+    },
+    {
+      title: "Использование",
+      dataIndex: "usage",
+      width: "10%",
+      render: (_: any, record: TTest) => (
+        <Checkbox
+          checked={record.usage}
+          style={{ display: "flex", justifyContent: "center" }}></Checkbox>
       )
     },
     {
-      dataIndex: "delete",
-      render: (_: any, record: any) =>
-        dataSource.length >= 1 ? (
+      width: "10%",
+      render: (_: any, record: TTest) => (
+        <div
+          style={{ display: "flex", justifyContent: "center" }}
+          onClick={() =>
+            navigate(
+              generatePath(clientRoutes.testVariants, {
+                testId: String(record.id)
+              })
+            )
+          }>
+          <a>Просмотр</a>
+        </div>
+      )
+    },
+    {
+      width: "10%",
+      render: (_: any, __: TTest, index: number) => (
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <Popconfirm
             title="Уверены?"
-            onConfirm={() => handleDelete(record.key)}>
+            onConfirm={() => handleDeleteTest(index)}>
             <a>Удалить</a>
           </Popconfirm>
-        ) : null
+        </div>
+      )
     }
   ];
-
-  return (
-    <div>
-      <Table bordered dataSource={dataSource} columns={columns} />
-    </div>
-  );
+  const renderContent = (): JSX.Element => {
+    if (isLoading) {
+      return (
+        <Row justify="center">
+          <Skeleton />
+        </Row>
+      );
+    }
+    if (tests.length > 0) {
+      return (
+        <>
+          <Card
+            style={{
+              marginBottom: 10,
+              fontSize: 30,
+              display: "flex",
+              justifyContent: "center"
+            }}>
+            Созданные тесты
+          </Card>
+          <Table bordered columns={columns} dataSource={tests}></Table>
+        </>
+      );
+    } else {
+      return (
+        <Result
+          title="Ошибка"
+          subTitle="Что-то пошло не так"
+          // TODO добавить кнопку назад
+          extra={<Button type="primary">Вернуться домой</Button>}
+        />
+      );
+    }
+  };
+  return renderContent();
 };

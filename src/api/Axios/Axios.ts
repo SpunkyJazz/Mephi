@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-named-as-default
 import Axios, { AxiosInstance } from "axios";
 import NProgress from "nprogress";
 

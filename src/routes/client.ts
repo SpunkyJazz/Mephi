@@ -1,5 +1,8 @@
 export const clientRoutes = {
+  questions: "/questions",
+  questionEdit: "/questions/:id",
   generation: "/generation",
   tests: "/tests",
-  testEdit: "/tests/:id"
+  testVariants: "/tests/test/:testId",
+  variantQuestions: "/tests/test/:testId/variant/:variantNumber"
 };
