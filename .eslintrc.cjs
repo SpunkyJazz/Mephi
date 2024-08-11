@@ -70,7 +70,7 @@ module.exports = {
     "prefer-promise-reject-errors": ["error", { allowEmptyReject: true }],
     radix: "error",
     "no-undefined": "off",
-    "array-bracket-newline": ["error", { multiline: true }],
+    "array-bracket-newline": ["error", "consistent"],
     "comma-dangle": ["error", "never"],
     "comma-style": "error",
     eqeqeq: "error",
@@ -89,7 +89,6 @@ module.exports = {
     "no-bitwise": "off",
     "no-lonely-if": "warn",
     "no-multiple-empty-lines": "error",
-    "no-new-object": "error",
     "no-trailing-spaces": "error",
     "no-unneeded-ternary": "error",
     "no-whitespace-before-property": "error",
@@ -128,9 +127,7 @@ module.exports = {
     ],
     "@typescript-eslint/member-ordering": "off", // иначе ругается на flow экшны mobx
     "@typescript-eslint/brace-style": ["error", "1tbs"],
-    "@typescript-eslint/quotes": ["error", "double"],
     "@typescript-eslint/func-call-spacing": ["error", "never"],
-    "@typescript-eslint/no-useless-constructor": "error",
     "@typescript-eslint/prefer-for-of": "warn",
     "@typescript-eslint/parameter-properties": [
       "error",
@@ -147,10 +144,6 @@ module.exports = {
       { allowExpressions: true }
     ],
     "@typescript-eslint/interface-name-prefix": "off",
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      { argsIgnorePattern: "^_", varsIgnorePattern: "^_$" }
-    ],
     "@typescript-eslint/no-floating-promises": [
       "off",
       { ignoreVoid: true, ignoreIIFE: true }
@@ -171,12 +164,10 @@ module.exports = {
     "react/prefer-stateless-function": "error",
     "react/jsx-filename-extension": ["error", { extensions: [".tsx", ".jsx"] }],
     "react/jsx-no-bind": "off",
-    "react/jsx-no-useless-fragment": "warn",
     "react/jsx-pascal-case": "error",
     "react-hooks/rules-of-hooks": "error",
     "react/prop-types": "off",
     "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off",
     "react/no-array-index-key": "error",
     "prettier/prettier": [
       "error",
@@ -186,7 +177,9 @@ module.exports = {
         tabWidth: 2,
         singleQuote: false,
         bracketSpacing: true,
-        jsxBracketSameLine: true
+        jsxBracketSameLine: true,
+        endOfLine: "auto",
+        bracketSameLine: true
       }
     ],
     "sonarjs/no-nested-template-literals": "off",

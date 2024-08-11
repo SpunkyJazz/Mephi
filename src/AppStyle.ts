@@ -16,5 +16,5 @@ export const AppStyled = styled.div`
   min-height: 375px;
   max-height: 1440px;
   margin: 0;
-  overflow: hidden;
+  overflow: auto;
 `;
