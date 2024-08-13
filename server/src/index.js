@@ -38,3 +38,7 @@ server.get("/api/v1/get-variant/:testId/:variantNumber", async (req, res) => {
   await addDelay(500);
   await res.send(getVariantDetailsJSON);
 });
+
+server.listen(3004, () => {
+  console.log(`JSON Server is running: http://localhost:3004`);
+});
