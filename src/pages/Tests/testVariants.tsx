@@ -40,7 +40,9 @@ export const TestVariantsPage = (): JSX.Element => {
           <Card
             style={{
               marginBottom: 10,
-              fontSize: 30,
+              height: "80px",
+              alignItems: "center",
+              fontSize: 25,
               display: "flex",
               justifyContent: "center"
             }}>

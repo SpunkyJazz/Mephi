@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { MephiApi } from "src/api/mephi";
 import { TQuestionDetails } from "src/api/mephi/types";
+import { SaveButton } from "src/components/SaveButton";
 
 export const QuestionEditPage = (): JSX.Element => {
   const { id } = useParams();
@@ -51,20 +52,26 @@ export const QuestionEditPage = (): JSX.Element => {
         </Row>
       );
     }
-    // TODO поменять
     if (question) {
       return (
         <div>
           <Card
             style={{
               marginBottom: 10,
-              fontSize: 30,
+              height: "80px",
+              alignItems: "center",
+              fontSize: 25,
               display: "flex",
               justifyContent: "center"
             }}>
             Редактирование вопроса
           </Card>
-          <Row>
+          <Row
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between"
+            }}>
             <Input
               value={question?.text}
               style={{ fontSize: 20, width: "50%", height: 40 }}
@@ -74,14 +81,14 @@ export const QuestionEditPage = (): JSX.Element => {
               value={question?.complexity}
               min={1}
               max={3}
-              style={{ width: "20%", height: 40, fontSize: 20 }}
+              style={{ width: "238px", height: 40, fontSize: 20 }}
               onChange={handleChangeComplexity}
             />
             {/* TODO Настроить изменение использования вопроса */}
             <Checkbox
               style={{
                 backgroundColor: "white",
-                fontSize: 20,
+                fontSize: 18,
                 width: "15%",
                 justifyContent: "center",
                 height: 40,
@@ -90,17 +97,20 @@ export const QuestionEditPage = (): JSX.Element => {
               Использовать
             </Checkbox>
             {/* TODO Сохранение изменений */}
-            <Button
-              type="primary"
-              style={{ width: "15%", height: 40, fontSize: 20 }}>
+            <Button type="primary" style={{ width: "140px", fontSize: 20 }}>
               Сохранить
             </Button>
           </Row>
-          {/* Настроить сохранение нового ответа */}
+          {/* TODO Настроить сохранение нового ответа */}
           <div style={{ fontSize: 25, marginTop: 10, marginBottom: 10 }}>
             Новый ответ:
           </div>
-          <Row style={{ display: "flex", alignItems: "center" }}>
+          <Row
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between"
+            }}>
             <Input
               placeholder="Ответ"
               style={{ fontSize: 20, width: "70%", height: 40 }}
@@ -108,7 +118,7 @@ export const QuestionEditPage = (): JSX.Element => {
             <Checkbox
               style={{
                 backgroundColor: "white",
-                fontSize: 20,
+                fontSize: 18,
                 width: "15%",
                 justifyContent: "center",
                 height: 40,
@@ -116,11 +126,9 @@ export const QuestionEditPage = (): JSX.Element => {
               }}>
               Корректность
             </Checkbox>
-            <Button
-              type="primary"
-              style={{ width: "15%", height: 40, fontSize: 20 }}>
+            <SaveButton style={{ width: "140px", fontSize: 20 }}>
               Добавить
-            </Button>
+            </SaveButton>
           </Row>
           <div style={{ fontSize: 25, marginTop: 10, marginBottom: 10 }}>
             Ответы:
@@ -128,7 +136,12 @@ export const QuestionEditPage = (): JSX.Element => {
           {question?.answers?.map((item) => (
             <Row
               key={item.id}
-              style={{ display: "flex", alignItems: "center" }}>
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "8px"
+              }}>
               <Input
                 defaultValue={item.text}
                 style={{ fontSize: 20, width: "70%", height: 40 }}
@@ -137,7 +150,7 @@ export const QuestionEditPage = (): JSX.Element => {
                 checked={item.correctness}
                 style={{
                   backgroundColor: "white",
-                  fontSize: 20,
+                  fontSize: 18,
                   width: "15%",
                   justifyContent: "center",
                   height: 40,
@@ -145,9 +158,7 @@ export const QuestionEditPage = (): JSX.Element => {
                 }}>
                 Корректность
               </Checkbox>
-              <Button
-                type="primary"
-                style={{ width: "15%", height: 40, fontSize: 20 }}>
+              <Button danger style={{ width: "140px", fontSize: 20 }}>
                 Удалить
               </Button>
             </Row>

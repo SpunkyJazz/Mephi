@@ -84,7 +84,9 @@ export const VariantQuestionsPage = (): JSX.Element => {
           <Card
             style={{
               marginBottom: 10,
-              fontSize: 30,
+              height: "80px",
+              alignItems: "center",
+              fontSize: 25,
               display: "flex",
               justifyContent: "center"
             }}>
@@ -92,7 +94,7 @@ export const VariantQuestionsPage = (): JSX.Element => {
           </Card>
           <Table
             bordered
-            style={{ fontSize: 30 }}
+            pagination={{ defaultPageSize: 8 }}
             columns={columns}
             dataSource={variant?.questions}></Table>
         </>

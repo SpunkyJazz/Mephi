@@ -54,5 +54,45 @@ export default [
     questions: 10,
     minutes: 20,
     usage: false
+  },
+  {
+    id: 7,
+    name: "Test 8",
+    variants: 15,
+    questions: 20,
+    minutes: 15,
+    usage: true
+  },
+  {
+    id: 8,
+    name: "Test 9",
+    variants: 20,
+    questions: 10,
+    minutes: 20,
+    usage: false
+  },
+  {
+    id: 9,
+    name: "Test 10",
+    variants: 15,
+    questions: 10,
+    minutes: 15,
+    usage: true
+  },
+  {
+    id: 10,
+    name: "Test 11",
+    variants: 20,
+    questions: 15,
+    minutes: 20,
+    usage: false
+  },
+  {
+    id: 11,
+    name: "Test 12",
+    variants: 10,
+    questions: 20,
+    minutes: 10,
+    usage: true
   }
 ];

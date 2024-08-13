@@ -38,27 +38,3 @@ server.get("/api/v1/get-variant/:testId/:variantNumber", async (req, res) => {
   await addDelay(500);
   await res.send(getVariantDetailsJSON);
 });
-
-server.patch("/api/v1/agree-terms", async (req, res) => {
-  await addDelay(500);
-  await res.send();
-});
-
-server.post("/api/v1/approve-application-as-operator", async (req, res) => {
-  await addDelay(500);
-  await res.send();
-});
-
-server.get("/api/v1/generate-password", async (req, res) => {
-  await addDelay(500);
-  await res.send({ password: "Qwerty12345678!" });
-});
-
-server.put("/api/v1/update-own-user-data", async (req, res) => {
-  await addDelay(500);
-  await res.send();
-});
-
-server.listen(3004, () => {
-  console.log(`JSON Server is running: http://localhost:3004`);
-});

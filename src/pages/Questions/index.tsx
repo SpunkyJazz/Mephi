@@ -31,10 +31,12 @@ export const QuestionsPage = (): JSX.Element => {
       .catch(() => null);
   }, []);
 
-  const handleDeleteQuestion = (value: number): void => {
-    const _questions = questions;
-    _questions.splice(value, 1);
-    setQuestions(_questions);
+  const handleDeleteQuestion = (id: TQuestion["id"]): void => {
+    MephiApi.deleteQuestion(id)
+      .then(() => setQuestions(questions.filter((q) => q.id !== id)))
+      .catch(() => {
+        message.error("Ошибка при загрузке");
+      });
   };
 
   const columns: any = [
@@ -86,10 +88,10 @@ export const QuestionsPage = (): JSX.Element => {
     {
       dataIndex: "delete",
       width: "10%",
-      render: (_: any, __: any, index: number) => (
+      render: (_: any, record: TQuestion) => (
         <Popconfirm
           title="Уверены?"
-          onConfirm={() => handleDeleteQuestion(index)}>
+          onConfirm={() => handleDeleteQuestion(record.id)}>
           <a>Удалить</a>
         </Popconfirm>
       )
@@ -110,13 +112,20 @@ export const QuestionsPage = (): JSX.Element => {
           <Card
             style={{
               marginBottom: 10,
-              fontSize: 30,
+              height: "80px",
+              alignItems: "center",
+              fontSize: 25,
               display: "flex",
               justifyContent: "center"
             }}>
             Список вопросов
           </Card>
-          <Table bordered columns={columns} dataSource={questions}></Table>
+          <Table
+            bordered
+            pagination={{ defaultPageSize: 8 }}
+            columns={columns}
+            dataSource={questions}
+          />
         </>
       );
     } else {

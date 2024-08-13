@@ -113,13 +113,19 @@ export const TestsPage = (): JSX.Element => {
           <Card
             style={{
               marginBottom: 10,
-              fontSize: 30,
+              height: "80px",
+              alignItems: "center",
+              fontSize: 25,
               display: "flex",
               justifyContent: "center"
             }}>
             Созданные тесты
           </Card>
-          <Table bordered columns={columns} dataSource={tests}></Table>
+          <Table
+            bordered
+            pagination={{ defaultPageSize: 8 }}
+            columns={columns}
+            dataSource={tests}></Table>
         </>
       );
     } else {

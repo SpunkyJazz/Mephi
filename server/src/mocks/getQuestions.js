@@ -38,5 +38,45 @@ export default [
     text: "Вопрос 5",
     complexity: 3,
     usage: false
+  },
+  {
+    id: 5,
+    theme: 460,
+    identifier: 6,
+    text: "Вопрос 6",
+    complexity: 2,
+    usage: true
+  },
+  {
+    id: 6,
+    theme: 461,
+    identifier: 7,
+    text: "Вопрос 7",
+    complexity: 1,
+    usage: false
+  },
+  {
+    id: 7,
+    theme: 462,
+    identifier: 8,
+    text: "Вопрос 8",
+    complexity: 2,
+    usage: true
+  },
+  {
+    id: 8,
+    theme: 463,
+    identifier: 9,
+    text: "Вопрос 9",
+    complexity: 3,
+    usage: false
+  },
+  {
+    id: 9,
+    theme: 464,
+    identifier: 10,
+    text: "Вопрос 10",
+    complexity: 2,
+    usage: true
   }
 ];

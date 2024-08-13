@@ -15,6 +15,9 @@ export class MephiApiClass extends ApiCommon {
   public getQuestion = <T = TQuestionDetails>(id: string): TResponse<T> =>
     this.get<T>(`/api/v1/get-question/${id}`);
 
+  public deleteQuestion = <T = null>(id: TQuestion["id"]): TResponse<T> =>
+    this.delete<T>(`/api/v1/delete-question/${id}`);
+
   public getTests = <T = TTest[]>(): TResponse<T> =>
     this.get<T>("/api/v1/get-tests");
 

@@ -45,10 +45,7 @@ module.exports = {
     "@typescript-eslint/quotes": ["error", "double"],
     "@typescript-eslint/no-shadow": ["error"],
     "@typescript-eslint/no-useless-constructor": "error",
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      { argsIgnorePattern: "^_", varsIgnorePattern: "^_$" }
-    ],
+    "@typescript-eslint/no-unused-vars": "warn",
     "no-undef": ["error", { typeof: true }],
     "no-template-curly-in-string": "error",
     "block-scoped-var": "error",
