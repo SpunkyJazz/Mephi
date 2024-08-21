@@ -33,9 +33,27 @@ export const QuestionsPage = (): JSX.Element => {
 
   const handleDeleteQuestion = (id: TQuestion["id"]): void => {
     MephiApi.deleteQuestion(id)
-      .then(() => setQuestions(questions.filter((q) => q.id !== id)))
+      .then(() => {
+        setQuestions(questions.filter((q) => q.id !== id));
+        message.success("Вопрос успешно удалён");
+      })
       .catch(() => {
-        message.error("Ошибка при загрузке");
+        message.error("Ошибка при удалении");
+      });
+  };
+
+  const handleEditUsage = (data: TQuestion): void => {
+    const editData = { ...data, usage: !data.usage };
+    MephiApi.editQuestionUsage(editData)
+      .then(() => {
+        const editQuestions = [...questions];
+        const index = editQuestions.findIndex((item) => item.id === data.id);
+        editQuestions[index] = editData;
+        setQuestions(editQuestions);
+        message.success("Изменения сохранены");
+      })
+      .catch(() => {
+        message.error("Ошибка при изменении");
       });
   };
 
@@ -65,16 +83,19 @@ export const QuestionsPage = (): JSX.Element => {
       dataIndex: "usage",
       width: "10%",
       render: (_: any, record: TQuestion) => (
-        <Checkbox checked={record.usage}></Checkbox>
+        <Checkbox
+          checked={record.usage}
+          onClick={() => handleEditUsage(record)}
+          style={{ display: "flex", justifyContent: "center" }}></Checkbox>
       )
     },
     {
       dataIndex: "edit",
       width: "10%",
       render: (_: any, record: TQuestion) => (
-        <Popconfirm
-          title="Перейти к редактированию?"
-          onConfirm={() =>
+        <div
+          style={{ display: "flex", justifyContent: "center" }}
+          onClick={() =>
             navigate(
               generatePath(clientRoutes.questionEdit, {
                 id: String(record.id)
@@ -82,18 +103,20 @@ export const QuestionsPage = (): JSX.Element => {
             )
           }>
           <a>Редактировать</a>
-        </Popconfirm>
+        </div>
       )
     },
     {
       dataIndex: "delete",
       width: "10%",
       render: (_: any, record: TQuestion) => (
-        <Popconfirm
-          title="Уверены?"
-          onConfirm={() => handleDeleteQuestion(record.id)}>
-          <a>Удалить</a>
-        </Popconfirm>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Popconfirm
+            title="Уверены?"
+            onConfirm={() => handleDeleteQuestion(record.id)}>
+            <a>Удалить</a>
+          </Popconfirm>
+        </div>
       )
     }
   ];

@@ -1,3 +1,12 @@
+export type TNewTest = {
+  name: string;
+  variants: number;
+  questions: number;
+  minutes: number;
+  usage: boolean;
+};
+// не используется
+
 export type TTest = {
   id: number;
   name: string;

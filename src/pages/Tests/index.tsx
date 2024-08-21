@@ -33,10 +33,30 @@ export const TestsPage = (): JSX.Element => {
       .catch(() => null);
   }, []);
 
-  const handleDeleteTest = (value: number): void => {
-    const _tests = tests;
-    _tests.splice(value, 1);
-    setTests(_tests);
+  const handleDeleteTest = (id: TTest["id"]): void => {
+    MephiApi.deleteTest(id)
+      .then(() => {
+        setTests(tests.filter((q) => q.id !== id));
+        message.success("Тест успешно удалён");
+      })
+      .catch(() => {
+        message.error("Ошибка при удалении");
+      });
+  };
+
+  const handleEditUsage = (data: TTest): void => {
+    const editData = { ...data, usage: !data.usage };
+    MephiApi.editTestUsage(data)
+      .then(() => {
+        const editTests = [...tests];
+        const index = editTests.findIndex((item) => item.id === data.id);
+        editTests[index] = editData;
+        setTests(editTests);
+        message.success("Изменения сохранены");
+      })
+      .catch(() => {
+        message.error("Ошибка при изменении");
+      });
   };
 
   const columns: ColumnsType<TTest> = [
@@ -67,6 +87,7 @@ export const TestsPage = (): JSX.Element => {
       render: (_: any, record: TTest) => (
         <Checkbox
           checked={record.usage}
+          onClick={() => handleEditUsage(record)}
           style={{ display: "flex", justifyContent: "center" }}></Checkbox>
       )
     },

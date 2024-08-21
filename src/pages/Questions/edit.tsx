@@ -34,14 +34,80 @@ export const QuestionEditPage = (): JSX.Element => {
     }
   }, [id]);
 
-  // TODO Отправлять изменения
+  const handleChangeText = (value: string): void => {
+    question && setQuestion({ ...question, text: value });
+  };
 
   const handleChangeComplexity = (value: number | null): void => {
     question && setQuestion({ ...question, complexity: value });
   };
 
-  const handleChangeText = (value: string): void => {
-    question && setQuestion({ ...question, text: value });
+  const [newAnswerText, setNewAnswerText] = useState("");
+  const [newAnswerCorrectness, setNewAnswerCorrectness] = useState(false);
+
+  const addNewAnswer = (): void => {
+    if (question) {
+      const index = question.answers.length;
+      const _index = question.answers[index - 1].id;
+      setQuestion({
+        ...question,
+        answers: [
+          ...question.answers,
+          {
+            id: _index + 1,
+            text: newAnswerText,
+            correctness: newAnswerCorrectness
+          }
+        ]
+      });
+      MephiApi.addAnswer(question)
+        .then(() => {
+          message.success("Изменения сохранены");
+        })
+        .catch(() => {
+          message.error("Ошибка при добавлении ответа");
+        });
+    }
+  };
+
+  const handleChangeTextAnswer = (identifier: number, text: string): void => {
+    if (question) {
+      const _answers = question.answers;
+      const index = _answers.findIndex((item) => item.id === identifier);
+      _answers[index].text = text;
+      setQuestion({ ...question, answers: _answers });
+    }
+  };
+
+  const handleChangeСorrectnessAnswer = (
+    identifier: number,
+    correctness: boolean
+  ): void => {
+    if (question) {
+      const _answers = question.answers;
+      const index = _answers.findIndex((item) => item.id === identifier);
+      _answers[index].correctness = !correctness;
+      setQuestion({ ...question, answers: _answers });
+    }
+  };
+
+  const handleDeleteAnswer = (identifier: number): void => {
+    if (question) {
+      const _answers = question.answers.filter((q) => q.id !== identifier);
+      setQuestion({ ...question, answers: _answers });
+    }
+  };
+
+  const handleSaveQuestion = (): void => {
+    if (question) {
+      MephiApi.saveQuestion(question)
+        .then(() => {
+          message.success("Изменения сохранены");
+        })
+        .catch(() => {
+          message.error("Ошибка при сохранении");
+        });
+    }
   };
 
   const renderContent = (): JSX.Element => {
@@ -73,35 +139,25 @@ export const QuestionEditPage = (): JSX.Element => {
               justifyContent: "space-between"
             }}>
             <Input
-              value={question?.text}
+              value={question.text}
               style={{ fontSize: 20, width: "50%", height: 40 }}
               onChange={(event) => handleChangeText(event.target.value)}
             />
             <InputNumber
-              value={question?.complexity}
+              value={question.complexity}
               min={1}
               max={3}
-              style={{ width: "238px", height: 40, fontSize: 20 }}
+              style={{ width: "18%", height: 40, fontSize: 20 }}
               onChange={handleChangeComplexity}
             />
-            {/* TODO Настроить изменение использования вопроса */}
-            <Checkbox
-              style={{
-                backgroundColor: "white",
-                fontSize: 18,
-                width: "15%",
-                justifyContent: "center",
-                height: 40,
-                alignItems: "center"
-              }}>
-              Использовать
-            </Checkbox>
-            {/* TODO Сохранение изменений */}
-            <Button type="primary" style={{ width: "140px", fontSize: 20 }}>
-              Сохранить
+            <Button
+              type="primary"
+              disabled={!question}
+              style={{ width: "18%", height: 40, fontSize: 20 }}
+              onClick={handleSaveQuestion}>
+              Сохранить изменения
             </Button>
           </Row>
-          {/* TODO Настроить сохранение нового ответа */}
           <div style={{ fontSize: 25, marginTop: 10, marginBottom: 10 }}>
             Новый ответ:
           </div>
@@ -114,6 +170,7 @@ export const QuestionEditPage = (): JSX.Element => {
             <Input
               placeholder="Ответ"
               style={{ fontSize: 20, width: "70%", height: 40 }}
+              onChange={(event) => setNewAnswerText(event.target.value)}
             />
             <Checkbox
               style={{
@@ -123,10 +180,16 @@ export const QuestionEditPage = (): JSX.Element => {
                 justifyContent: "center",
                 height: 40,
                 alignItems: "center"
-              }}>
+              }}
+              onChange={(event) =>
+                setNewAnswerCorrectness(event.target.checked)
+              }>
               Корректность
             </Checkbox>
-            <SaveButton style={{ width: "140px", fontSize: 20 }}>
+            <SaveButton
+              style={{ width: "140px", fontSize: 20 }}
+              disabled={!newAnswerText}
+              onClick={addNewAnswer}>
               Добавить
             </SaveButton>
           </Row>
@@ -145,6 +208,9 @@ export const QuestionEditPage = (): JSX.Element => {
               <Input
                 defaultValue={item.text}
                 style={{ fontSize: 20, width: "70%", height: 40 }}
+                onChange={(event) =>
+                  handleChangeTextAnswer(item.id, event.target.value)
+                }
               />
               <Checkbox
                 checked={item.correctness}
@@ -155,10 +221,16 @@ export const QuestionEditPage = (): JSX.Element => {
                   justifyContent: "center",
                   height: 40,
                   alignItems: "center"
-                }}>
+                }}
+                onClick={() =>
+                  handleChangeСorrectnessAnswer(item.id, item.correctness)
+                }>
                 Корректность
               </Checkbox>
-              <Button danger style={{ width: "140px", fontSize: 20 }}>
+              <Button
+                danger
+                style={{ width: "140px", fontSize: 20 }}
+                onClick={() => handleDeleteAnswer(item.id)}>
                 Удалить
               </Button>
             </Row>

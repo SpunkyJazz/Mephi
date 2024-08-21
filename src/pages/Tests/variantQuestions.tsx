@@ -1,13 +1,4 @@
-import {
-  Button,
-  Card,
-  message,
-  Popconfirm,
-  Result,
-  Row,
-  Skeleton,
-  Table
-} from "antd";
+import { Button, Card, message, Result, Row, Skeleton, Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { useEffect, useState } from "react";
 import { generatePath, useNavigate, useParams } from "react-router";
@@ -56,9 +47,9 @@ export const VariantQuestionsPage = (): JSX.Element => {
       dataIndex: "edit",
       width: "20%",
       render: (_: any, record: TQuestion) => (
-        <Popconfirm
-          title="Перейти к редактированию?"
-          onConfirm={() =>
+        <div
+          style={{ display: "flex", justifyContent: "center" }}
+          onClick={() =>
             navigate(
               generatePath(clientRoutes.questionEdit, {
                 id: String(record.id)
@@ -66,7 +57,7 @@ export const VariantQuestionsPage = (): JSX.Element => {
             )
           }>
           <a>Редактировать</a>
-        </Popconfirm>
+        </div>
       )
     }
   ];

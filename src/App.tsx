@@ -1,6 +1,6 @@
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import { Avatar, Menu } from "antd";
+import { Menu } from "antd";
 import {
   AppStyled,
   AppWrapper,
@@ -22,18 +22,18 @@ export const App = observer((): JSX.Element => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const HEADER_MENU_ITEMS = [
-    {
-      key: "user-menu-item",
-      // когда будет юзер сделать username[0].toLocaleUpperCase()
-      label: <Avatar>М</Avatar>,
-      children: [
-        {
-          label: "Выйти"
-        }
-      ]
-    }
-  ];
+  // const HEADER_MENU_ITEMS = [
+  //   {
+  //     key: "user-menu-item",
+  //     // когда будет юзер сделать username[0].toLocaleUpperCase()
+  //     label: <Avatar>М</Avatar>,
+  //     children: [
+  //       {
+  //         label: "Выйти"
+  //       }
+  //     ]
+  //   }
+  // ];
 
   return (
     <AppWrapper>
@@ -48,13 +48,13 @@ export const App = observer((): JSX.Element => {
             style={{ flex: 1, minWidth: 0 }}
             onClick={(info) => navigate(info.key)}
           />
-          <Menu
+          {/* <Menu
             theme="dark"
             mode="horizontal"
             items={HEADER_MENU_ITEMS}
             // TODO добавить логаут
             onClick={() => null}
-          />
+          /> */}
         </HeaderContent>
       </Header>
       <AppStyled>

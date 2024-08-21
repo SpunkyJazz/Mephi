@@ -6,16 +6,39 @@ import {
   Row,
   Col,
   InputNumber,
-  TreeSelect
-  // Tree,
-  // TreeProps
+  TreeSelect,
+  message
+  // Tree
 } from "antd";
+import { MephiApi } from "src/api/mephi";
 
 export const GenerationPage = (): JSX.Element => {
-  const onChange = (value: any): void => {
-    console.log("changed", value);
+  const [newName, setName] = useState("");
+  const [newVariants, setVariants] = useState(0);
+  const [newQuestions, setQuestions] = useState(0);
+  const [newMinutes, setMinutes] = useState(0);
+
+  // TODO добавить выбранные темы
+  const generateTest = (): void => {
+    const test = {
+      name: newName,
+      variants: newVariants,
+      questions: newQuestions,
+      minutes: newMinutes,
+      usage: false
+    };
+    if (test) {
+      MephiApi.generateTest(test)
+        .then(() => {
+          message.success("Тест создан");
+        })
+        .catch(() => {
+          message.error("Ошибка при создании теста");
+        });
+    }
   };
 
+  // TODO сделать mock
   const treeData = [
     {
       title: "Интеллектуальные системы и технологии",
@@ -96,21 +119,7 @@ export const GenerationPage = (): JSX.Element => {
     }
   ];
 
-  const [value, setValue] = useState(["0-0-0"]);
-
-  const OnChange = (newValue: string[]): void => {
-    console.log("onChange ", newValue);
-    setValue(newValue);
-  };
-
-  // const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
-  //   console.log('selected', selectedKeys, info);
-  // };
-
-  // const onCheck: TreeProps['onCheck'] = (checkedKeys, info) => {
-  //   console.log('onCheck', checkedKeys, info);
-  // };
-
+  // TODO переделать layout
   return (
     <Col>
       <Card
@@ -126,52 +135,55 @@ export const GenerationPage = (): JSX.Element => {
       </Card>
       <Input
         placeholder="Имя теста"
-        style={{ height: 50, fontSize: 25, marginBottom: 10 }}
+        style={{ height: 40, fontSize: 20, marginBottom: 10 }}
+        onChange={(event) => setName(event.target.value)}
       />
       <Row style={{ display: "flex", justifyContent: "space-between" }}>
         <InputNumber
           min={0}
           max={50}
-          style={{ width: "20vw", height: 50, fontSize: 25 }}
+          style={{ width: "20vw", height: 40, fontSize: 20 }}
           placeholder="Количество вариантов"
-          onChange={onChange}
+          onChange={() => setVariants}
         />
         <InputNumber
           min={0}
           max={50}
-          style={{ width: "20vw", height: 50, fontSize: 25 }}
+          style={{ width: "20vw", height: 40, fontSize: 20 }}
           placeholder="Количество вопросов"
-          onChange={onChange}
+          onChange={() => setQuestions}
         />
         <InputNumber
           min={0}
           max={120}
-          style={{ width: "20vw", height: 50, fontSize: 25 }}
+          style={{ width: "20vw", height: 40, fontSize: 20 }}
           placeholder="Минут на тест"
-          onChange={onChange}
+          onChange={() => setMinutes}
         />
         <Button
           type="primary"
-          style={{ width: "20vw", height: 50, fontSize: 25 }}>
-          Отправить
+          style={{ width: "20vw", height: 40, fontSize: 20 }}
+          onClick={generateTest}>
+          Создать
         </Button>
       </Row>
       <TreeSelect
         size="large"
         treeData={treeData}
-        onChange={OnChange}
         treeCheckable="true"
         placeholder="Выберите темы"
-        style={{ marginTop: 10, width: "100%", fontSize: 25 }}
+        style={{ marginTop: 10, width: "100%", fontSize: 20 }}
       />
-      {/* <div style={{fontSize: 25, marginTop: 10, backgroundColor: "white"}}>Выберите темы:</div>
-        <Tree
-          checkable
-          style={{marginTop: 15}}
-          onSelect={onSelect}
-          onCheck={onCheck}
-          treeData={treeData}
-        /> */}
+      {/* <div style={{ fontSize: 25, marginTop: 10, backgroundColor: "white" }}>
+        Выберите темы:
+      </div>
+      <Tree
+        checkable
+        style={{ marginTop: 15 }}
+        onSelect={onSelect}
+        onCheck={onCheck}
+        treeData={treeData}
+      /> */}
     </Col>
   );
 };

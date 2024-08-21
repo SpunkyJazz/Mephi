@@ -14,6 +14,11 @@ const middlewares = jsonServer.defaults();
 server.use(jsonServer.bodyParser);
 server.use(middlewares);
 
+server.put("/api/v1/generate-test", async (req, res) => {
+  await addDelay(500);
+  await res.send();
+});
+
 server.get("/api/v1/get-questions", async (req, res) => {
   await addDelay(500);
   await res.send(getQuestionsJSON);
@@ -24,6 +29,26 @@ server.get("/api/v1/get-question/:id", async (req, res) => {
   await res.send(getQuestionDetailsJSON);
 });
 
+server.delete("/api/v1/delete-question/:id", async (req, res) => {
+  await addDelay(500);
+  await res.send();
+});
+
+server.put("/api/v1/edit-question-usage", async (req, res) => {
+  await addDelay(500);
+  await res.send();
+});
+
+server.put("/api/v1/add-answer", async (req, res) => {
+  await addDelay(500);
+  await res.send();
+});
+
+server.put("/api/v1/save-question", async (req, res) => {
+  await addDelay(500);
+  await res.send();
+});
+
 server.get("/api/v1/get-tests", async (req, res) => {
   await addDelay(500);
   await res.send(getTestsJSON);
@@ -32,6 +57,16 @@ server.get("/api/v1/get-tests", async (req, res) => {
 server.get("/api/v1/get-test/:id", async (req, res) => {
   await addDelay(500);
   await res.send(getTestDetailsJSON);
+});
+
+server.delete("/api/v1/delete-test/:id", async (req, res) => {
+  await addDelay(500);
+  await res.send();
+});
+
+server.put("/api/v1/edit-test-usage", async (req, res) => {
+  await addDelay(500);
+  await res.send();
 });
 
 server.get("/api/v1/get-variant/:testId/:variantNumber", async (req, res) => {
