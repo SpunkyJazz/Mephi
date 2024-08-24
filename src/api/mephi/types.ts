@@ -4,8 +4,16 @@ export type TNewTest = {
   questions: number;
   minutes: number;
   usage: boolean;
+  // themes:
+  // TODO Добавить темы
 };
-// не используется
+
+export type TTheme = {
+  title: string;
+  value: string;
+  key: string;
+  children: TTheme[];
+};
 
 export type TTest = {
   id: number;
@@ -43,13 +51,24 @@ export type TQuestion = {
 };
 
 export type TQuestionDetails = {
+  id: number;
   text: string;
   complexity: number | null;
   answers: answer[];
 };
 
-type answer = {
+export type answer = {
   id: number;
   text: string;
   correctness: boolean;
+};
+
+export type TOpenTests = {
+  id: number;
+  name: string;
+};
+
+export type TTestPassing = {
+  name: string;
+  questions: TQuestionDetails[];
 };

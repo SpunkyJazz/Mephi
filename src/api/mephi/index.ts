@@ -6,12 +6,18 @@ import {
   TTest,
   TNewTest,
   TTestDetails,
-  TVariantDetails
+  TVariantDetails,
+  TTheme,
+  TOpenTests,
+  TTestPassing
 } from "./types";
 
 export class MephiApiClass extends ApiCommon {
   public generateTest = <T = TNewTest>(data: TNewTest): TResponse<T> =>
     this.put<T, TNewTest>("/api/v1/generate-test", data);
+
+  public getThemes = <T = TTheme[]>(): TResponse<T> =>
+    this.get<T>("/api/v1/get-themes");
 
   public getQuestions = <T = TQuestion[]>(): TResponse<T> =>
     this.get<T>("/api/v1/get-questions");
@@ -51,6 +57,12 @@ export class MephiApiClass extends ApiCommon {
     variantNumber: string
   ): TResponse<T> =>
     this.get<T>(`/api/v1/get-variant/${testId}/${variantNumber}`);
+
+  public getOpenTests = <T = TOpenTests[]>(): TResponse<T> =>
+    this.get<T>("/api/v1/get-open-tests");
+
+  public getTestPassing = <T = TTestPassing>(id: string): TResponse<T> =>
+    this.get<T>(`/api/v1/get-test-passing/${id}`);
 }
 
 export const MephiApi = new MephiApiClass();

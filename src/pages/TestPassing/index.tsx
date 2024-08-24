@@ -1,30 +1,24 @@
 import { Button, Card, List, message, Result, Row, Skeleton } from "antd";
 import { useEffect, useState } from "react";
-import { generatePath, useNavigate, useParams } from "react-router";
+import { useNavigate, generatePath } from "react-router";
 import { MephiApi } from "src/api/mephi";
-import { TTestDetails } from "src/api/mephi/types";
+import { TOpenTests } from "src/api/mephi/types";
 import { clientRoutes } from "src/routes/client";
 
-export const TestVariantsPage = (): JSX.Element => {
-  const { testId } = useParams();
+export const OpenTestsPage = (): JSX.Element => {
   const navigate = useNavigate();
-
   const [isLoading, setIsLoading] = useState(true);
 
-  const [test, setTest] = useState<TTestDetails | undefined>();
+  const [openTests, setOpenTests] = useState<TOpenTests[]>([]);
   useEffect(() => {
-    if (testId) {
-      setIsLoading(true);
-      MephiApi.getTest(testId)
-        .then((res) => setTest(res.data))
-        .catch(() => {
-          setTest(undefined);
-          message.error("Ошибка при загрузке");
-        })
-        .finally(() => setIsLoading(false))
-        .catch(() => null);
-    }
-  }, [testId]);
+    MephiApi.getOpenTests()
+      .then((res) => setOpenTests(res.data))
+      .catch(() => {
+        message.error("Ошибка при загрузке");
+      })
+      .finally(() => setIsLoading(false))
+      .catch(() => null);
+  }, []);
 
   const renderContent = (): JSX.Element => {
     if (isLoading) {
@@ -34,7 +28,7 @@ export const TestVariantsPage = (): JSX.Element => {
         </Row>
       );
     }
-    if (test) {
+    if (openTests) {
       return (
         <>
           <Card
@@ -46,11 +40,11 @@ export const TestVariantsPage = (): JSX.Element => {
               display: "flex",
               justifyContent: "center"
             }}>
-            {test.name}
+            Открытые тесты
           </Card>
           <List
             itemLayout="horizontal"
-            dataSource={test?.variants}
+            dataSource={openTests}
             loading={isLoading}
             renderItem={(item) => (
               <List.Item
@@ -59,16 +53,15 @@ export const TestVariantsPage = (): JSX.Element => {
                     key="key"
                     onClick={() =>
                       navigate(
-                        generatePath(clientRoutes.variantQuestions, {
-                          testId: String(test?.id),
-                          variantNumber: String(item.number)
+                        generatePath(clientRoutes.testPassing, {
+                          passingTestId: String(item.id)
                         })
                       )
                     }>
-                    Просмотр
+                    Перейти к прохождению
                   </Button>
                 ]}>
-                <List.Item.Meta title={["Вариант ", item.number]} />
+                <List.Item.Meta title={item.name} />
               </List.Item>
             )}
           />

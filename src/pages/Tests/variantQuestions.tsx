@@ -11,7 +11,7 @@ export const VariantQuestionsPage = (): JSX.Element => {
   const navigate = useNavigate();
 
   const [variant, setVariant] = useState<TVariantDetails | undefined>();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (testId && variantNumber) {

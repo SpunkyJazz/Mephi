@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -11,6 +11,7 @@ import {
   // Tree
 } from "antd";
 import { MephiApi } from "src/api/mephi";
+import { TTheme } from "src/api/mephi/types";
 
 export const GenerationPage = (): JSX.Element => {
   const [newName, setName] = useState("");
@@ -38,88 +39,16 @@ export const GenerationPage = (): JSX.Element => {
     }
   };
 
-  // TODO сделать mock
-  const treeData = [
-    {
-      title: "Интеллектуальные системы и технологии",
-      value: "0-0",
-      key: "0-0",
-      children: [
-        {
-          title: "Проектирование кибернетических систем, основанных на знаниях",
-          value: "0-0-0",
-          key: "0-0-0"
-        },
-        {
-          title: "Динамические интеллектуальные системы",
-          value: "0-0-1",
-          key: "0-0-1"
-        },
-        {
-          title: "Современные архитектуры интеллектуальных систем",
-          value: "0-0-2",
-          key: "0-0-2"
-        }
-      ]
-    },
-    {
-      title: "Введение в интеллектуальные системы",
-      value: "0-1",
-      key: "0-1",
-      children: [
-        {
-          title: "Общее представление человека об окружающем мире",
-          value: "0-1-0",
-          key: "0-1-0"
-        },
-        {
-          title:
-            "Основные направления исследований в области искусственного интеллекта",
-          value: "0-1-1",
-          key: "0-1-1"
-        },
-        {
-          title: "Архитектуры интеллектуальных систем и их эволюции",
-          value: "0-1-2",
-          key: "0-1-2"
-        }
-      ]
-    },
-    {
-      title: "Введение в интеллектуальные системы",
-      value: "0-2",
-      key: "0-2",
-      children: [
-        {
-          title: "Обобщенная функциональная схема ИДС",
-          value: "0-2-0",
-          key: "0-2-0"
-        },
-        {
-          title: "Понимание входных высказываний",
-          value: "0-2-1",
-          key: "0-2-1"
-        },
-        {
-          title: "Построение лингвистической модели входного подъяыка",
-          value: "0-2-2",
-          key: "0-2-2"
-        }
-      ]
-    },
-    {
-      title: "Функциональное программирование",
-      value: "0-3",
-      key: "0-3"
-    },
-    {
-      title: "Технология построения динамических интеллектуальных систем",
-      value: "0-4",
-      key: "0-4"
-    }
-  ];
+  const [themes, setThemes] = useState<TTheme[]>([]);
+  useEffect(() => {
+    MephiApi.getThemes()
+      .then((res) => setThemes(res.data))
+      .catch(() => {
+        message.error("Ошибка при загрузке");
+      })
+      .catch(() => null);
+  }, []);
 
-  // TODO переделать layout
   return (
     <Col>
       <Card
@@ -169,7 +98,8 @@ export const GenerationPage = (): JSX.Element => {
       </Row>
       <TreeSelect
         size="large"
-        treeData={treeData}
+        treeData={themes}
+        // onSelect={}
         treeCheckable="true"
         placeholder="Выберите темы"
         style={{ marginTop: 10, width: "100%", fontSize: 20 }}

@@ -14,6 +14,8 @@ import { GenerationPage } from "./pages/Generation";
 import { TestsPage } from "./pages/Tests";
 import { TestVariantsPage } from "./pages/Tests/testVariants";
 import { VariantQuestionsPage } from "./pages/Tests/variantQuestions";
+import { OpenTestsPage } from "./pages/TestPassing";
+import { TestPassingPage } from "./pages/TestPassing/test";
 import { clientRoutes } from "src/routes/client";
 import { MENU_ITEMS } from "src/constants";
 import "src/styles/index.css";
@@ -60,6 +62,11 @@ export const App = observer((): JSX.Element => {
       <AppStyled>
         <Content>
           <Routes>
+            <Route path={clientRoutes.openTests} element={<OpenTestsPage />} />
+            <Route
+              path={clientRoutes.testPassing}
+              element={<TestPassingPage />}
+            />
             <Route path={clientRoutes.questions} element={<QuestionsPage />} />
             <Route
               path={clientRoutes.questionEdit}

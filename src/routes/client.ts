@@ -4,5 +4,7 @@ export const clientRoutes = {
   generation: "/generation",
   tests: "/tests",
   testVariants: "/tests/test/:testId",
-  variantQuestions: "/tests/test/:testId/variant/:variantNumber"
+  variantQuestions: "/tests/test/:testId/variant/:variantNumber",
+  openTests: "/openTests",
+  testPassing: "/openTests/:passingTestId"
 };

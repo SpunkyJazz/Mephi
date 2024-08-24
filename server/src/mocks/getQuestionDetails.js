@@ -1,4 +1,5 @@
 export default {
+  id: 1,
   text: "Вопрос 1",
   complexity: 3,
   answers: [
